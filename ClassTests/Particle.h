@@ -18,7 +18,7 @@ class Particle{
     Particle(double x, double y){
         init();
         position[0] = x;
-        position[1] = y; 
+        position[1] = y;
     }
     void init(){
       position = {0,0,0};
@@ -26,6 +26,15 @@ class Particle{
       acceleration = {0,0,0};
       force = {0,0,0};
       mass = 0;
+    }
+    void setPosition(std::vector<double> newPosition){
+      position = newPosition;
+    }
+    void setVelocity(std::vector<double> newVelocity){
+      velocity = newVelocity;
+    }
+    void setAcceleration(std::vector<double> newAcceleration){
+      acceleration = newAcceleration;
     }
     std::vector<double> getPosition(){
       return position;
