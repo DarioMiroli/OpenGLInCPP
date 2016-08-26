@@ -1,10 +1,12 @@
 #include <iostream>
+#include <vector>
 #include "Particle.h"
 
 int main(){
   std::cout << "Starting main" << std::endl;
-  Particle P1 {};
-  std::cout << P1.getMass() << std::endl;
-  std::cout << P1.getPosition()[0] << std::endl;
+  std::vector<Particle> ParticleArray(10);
+  for(int i=0; i < ParticleArray.size(); i++){
+    std::cout <<  ParticleArray[i];
+  }
   return 0;
 }

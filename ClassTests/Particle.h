@@ -1,6 +1,7 @@
 #ifndef ObjectClass
 #define OBJECTCLASS
 
+#include <iostream>
 #include <vector>
 
 class Particle{
@@ -10,6 +11,9 @@ class Particle{
     std::vector<double> acceleration;
     std::vector<double> force;
     double mass;
+    int id;
+    static int Maxid;
+
 
   public:
     Particle(){
@@ -26,6 +30,7 @@ class Particle{
       acceleration = {0,0,0};
       force = {0,0,0};
       mass = 0;
+      id = Maxid++;
     }
     void setPosition(std::vector<double> newPosition){
       position = newPosition;
@@ -35,6 +40,17 @@ class Particle{
     }
     void setAcceleration(std::vector<double> newAcceleration){
       acceleration = newAcceleration;
+    }
+    void SetForces(std::vector<double> newForce){
+      force = newForce;
+    }
+    void setMass(double newMass){
+      mass = newMass;
+    }
+    void computeAcceleration(){
+      for(int i = 0; i<3; i++){
+          acceleration[i] = force[i]/mass;
+      }
     }
     std::vector<double> getPosition(){
       return position;
@@ -51,7 +67,22 @@ class Particle{
     double getMass(){
       return mass;
     }
+    friend std::ostream& operator<< (std::ostream &out, const Particle &particle);
 
-};
+  };
+  // Out of class stuff initialisation of static variables and friend funcitons
+  std::ostream& operator<< (std::ostream &out, const Particle &particle){
+  out << std::endl << "***********************" << std::endl;
+  out << "Particle ID: " << particle.id << "  Mass: " << particle.mass ;
+  out << std::endl;
+  out << "Position (" << particle.position[0] << " , " << particle.position[1] << " , " << particle.position[2] << ")" ;
+  out << std::endl;
+  out << "Velocity (" << particle.velocity[0] << " , " << particle.velocity[1] << " , " << particle.velocity[2] << ")" ;
+  out << std::endl;
+  out << "Acceleration (" << particle.acceleration[0] << " , " << particle.acceleration[1] << " , " << particle.acceleration[2] << ")" ;
+  out << std::endl << "***********************" << std::endl;
+  return out;
+  }
+  int Particle::Maxid = 1;
 
 #endif
