@@ -1,15 +1,16 @@
-#ifndef ObjectClass
+#ifndef OBJECTCLASS
 #define OBJECTCLASS
 
 #include <iostream>
 #include <vector>
+#include "Vec.h"
 
 class Particle{
   private:
-    std::vector<double> position;
-    std::vector<double> velocity;
-    std::vector<double> acceleration;
-    std::vector<double> force;
+    Vec position;
+    Vec velocity;
+    Vec acceleration;
+    Vec force;
     double mass;
     int id;
     static int Maxid;
@@ -19,49 +20,55 @@ class Particle{
     Particle(){
       init();
     }
-    Particle(double x, double y){
+    Particle(double x, double y,double z){
         init();
-        position[0] = x;
-        position[1] = y;
+        position.setComponents(x,y,z);
     }
     void init(){
-      position = {0,0,0};
-      velocity = {0,0,0};
-      acceleration = {0,0,0};
-      force = {0,0,0};
-      mass = 0;
+      position = Vec() ;
+      velocity = Vec();
+      acceleration = Vec();
+      force = Vec();
+      mass = 1;
       id = Maxid++;
     }
     void setPosition(std::vector<double> newPosition){
+      position = Vec(newPosition);
+    }
+    void setPosition(Vec newPosition){
       position = newPosition;
     }
     void setVelocity(std::vector<double> newVelocity){
+      velocity = Vec(newVelocity);
+    }
+    void setVelocity(Vec newVelocity){
       velocity = newVelocity;
     }
     void setAcceleration(std::vector<double> newAcceleration){
-      acceleration = newAcceleration;
+      acceleration = Vec(newAcceleration);
     }
-    void SetForces(std::vector<double> newForce){
+    void SetForce(std::vector<double> newForce){
+      force = Vec(newForce);
+    }
+    void SetForce(Vec newForce){
       force = newForce;
     }
     void setMass(double newMass){
       mass = newMass;
     }
     void computeAcceleration(){
-      for(int i = 0; i<3; i++){
-          acceleration[i] = force[i]/mass;
-      }
+      acceleration = Vec::scalarMultiply(1.0/mass, force);
     }
-    std::vector<double> getPosition(){
+    Vec getPosition(){
       return position;
     }
-    std::vector<double> getVelocity(){
+    Vec getVelocity(){
       return velocity;
     }
-    std::vector<double> getAcceleration(){
+    Vec getAcceleration(){
       return acceleration;
     }
-    std::vector<double> getForce(){
+    Vec getForce(){
       return force;
     }
     double getMass(){
@@ -75,12 +82,11 @@ class Particle{
   out << std::endl << "***********************" << std::endl;
   out << "Particle ID: " << particle.id << "  Mass: " << particle.mass ;
   out << std::endl;
-  out << "Position (" << particle.position[0] << " , " << particle.position[1] << " , " << particle.position[2] << ")" ;
-  out << std::endl;
-  out << "Velocity (" << particle.velocity[0] << " , " << particle.velocity[1] << " , " << particle.velocity[2] << ")" ;
-  out << std::endl;
-  out << "Acceleration (" << particle.acceleration[0] << " , " << particle.acceleration[1] << " , " << particle.acceleration[2] << ")" ;
-  out << std::endl << "***********************" << std::endl;
+  out << "Position: " << particle.position;
+  out << "Velocity: " << particle.velocity;
+  out << "Acceleration: " << particle.acceleration;
+  out << "Force: " << particle.force;
+  out << "***********************" << std::endl;
   return out;
   }
   int Particle::Maxid = 1;

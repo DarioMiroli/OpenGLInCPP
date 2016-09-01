@@ -23,6 +23,10 @@ class Vec{
       return m_vector;
     }
 
+    Vec(std::vector<double> v1){
+      m_vector = v1;
+    }
+
     void setComponents(double x, double y, double z){
       m_vector[0]=x;
       m_vector[1]=y;
@@ -38,6 +42,14 @@ class Vec{
       for(int i=0; i<dimensions;i++){
         m_vector[i] = m_vector[i]*scalar;
       }
+    }
+
+    static Vec scalarMultiply(double scalar, Vec v1){
+      Vec v2 = Vec();
+      for(int i=0; i<dimensions;i++){
+        v2.m_vector[i] = v1.m_vector[i]*scalar;
+      }
+      return v2;
     }
 
     static Vec add(Vec v1, Vec v2){
